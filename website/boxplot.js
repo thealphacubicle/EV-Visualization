@@ -1,87 +1,129 @@
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 40},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+// Load the CSV data from the specified path
+d3.csv("/data/Electric_Vehicle_Population_Data.csv", d => {
+    return {
+        modelYear: +d["Model Year"],
+        electricRange: +d["Electric Range"],
+        msrp: +d["Base MSRP"]
+    };
+}).then(data => {
+    // Filter for the 2019 model year and ensure valid MSRP and Electric Range values
+    let filteredData = data.filter(d => d.modelYear === 2019 && d.msrp > 0 && d.electricRange > 0);
 
-// append the svg object to the body of the page
-var svg = d3.select("#my_dataviz")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    // Aggregate data to get a count of occurrences for each (Electric Range, MSRP) pair
+    let aggregatedData = {};
+    filteredData.forEach(d => {
+        const key = `${d.electricRange}_${d.msrp}`;
+        if (!aggregatedData[key]) {
+            aggregatedData[key] = { ...d, count: 0 };
+        }
+        aggregatedData[key].count += 1;
+    });
 
-// Read the data and compute summary statistics for each specie
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv", function(data) {
+    // Prepare the aggregated data for D3 visualization
+    let data2019 = Object.values(aggregatedData);
 
-  // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
-  var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
-    .key(function(d) { return d.Species;})
-    .rollup(function(d) {
-      q1 = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.25)
-      median = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.5)
-      q3 = d3.quantile(d.map(function(g) { return g.Sepal_Length;}).sort(d3.ascending),.75)
-      interQuantileRange = q3 - q1
-      min = q1 - 1.5 * interQuantileRange
-      max = q3 + 1.5 * interQuantileRange
-      return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
-    })
-    .entries(data)
+    // Set dimensions and margins for the graph
+    const margin = {top: 60, right: 30, bottom: 70, left: 80},
+          width = 900 - margin.left - margin.right,
+          height = 600 - margin.top - margin.bottom;
 
-  // Show the X scale
-  var x = d3.scaleBand()
-    .range([ 0, width ])
-    .domain(["setosa", "versicolor", "virginica"])
-    .paddingInner(1)
-    .paddingOuter(.5)
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
+    // Create SVG container for the plot
+    const svg = d3.select("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // Show the Y scale
-  var y = d3.scaleLinear()
-    .domain([3,9])
-    .range([height, 0])
-  svg.append("g").call(d3.axisLeft(y))
+    // Define the X axis
+    const x = d3.scaleLinear()
+      .domain([0, d3.max(data2019, d => d.electricRange)])
+      .range([ 0, width ]);
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
 
-  // Show the main vertical line
-  svg
-    .selectAll("vertLines")
-    .data(sumstat)
-    .enter()
-    .append("line")
-      .attr("x1", function(d){return(x(d.key))})
-      .attr("x2", function(d){return(x(d.key))})
-      .attr("y1", function(d){return(y(d.value.min))})
-      .attr("y2", function(d){return(y(d.value.max))})
-      .attr("stroke", "black")
-      .style("width", 40)
+    // Add X axis label
+    svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width/2 + margin.left)
+      .attr("y", height + margin.top - 15)
+      .text("Electric Range (miles)");
 
-  // rectangle for the main box
-  var boxWidth = 100
-  svg
-    .selectAll("boxes")
-    .data(sumstat)
-    .enter()
-    .append("rect")
-        .attr("x", function(d){return(x(d.key)-boxWidth/2)})
-        .attr("y", function(d){return(y(d.value.q3))})
-        .attr("height", function(d){return(y(d.value.q1)-y(d.value.q3))})
-        .attr("width", boxWidth )
-        .attr("stroke", "black")
+    // Define the Y axis
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data2019, d => d.msrp)])
+      .range([ height, 0 ]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Add Y axis label
+    svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left + 20)
+      .attr("x", -margin.top - height/2 + 20)
+      .text("Base MSRP ($)");
+
+    // Define a scale for the bubble size
+    const z = d3.scaleSqrt()
+      .domain([0, d3.max(data2019, d => d.count)])
+      .range([2, 20]); // Bubble size range
+
+    // Create and fill the bubbles
+    svg.append('g')
+      .selectAll("dot")
+      .data(data2019)
+      .enter()
+      .append("circle")
+        .attr("cx", d => x(d.electricRange))
+        .attr("cy", d => y(d.msrp))
+        .attr("r", d => z(d.count))
         .style("fill", "#69b3a2")
+        .style("opacity", "0.7")
+        .attr("stroke", "black");
 
-  // Show the median
-  svg
-    .selectAll("medianLines")
-    .data(sumstat)
-    .enter()
-    .append("line")
-      .attr("x1", function(d){return(x(d.key)-boxWidth/2) })
-      .attr("x2", function(d){return(x(d.key)+boxWidth/2) })
-      .attr("y1", function(d){return(y(d.value.median))})
-      .attr("y2", function(d){return(y(d.value.median))})
-      .attr("stroke", "black")
-      .style("width", 80)
-})
+    // Add a title to the chart
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", 0 - (margin.top / 2))
+      .attr("text-anchor", "middle")
+      .style("font-size", "24px")
+      .style("text-decoration", "underline")
+      .text("Base MSRP vs Electric Range (2019 Model Year)");
+
+    const legendSizes = [1, 3, 10]; // Example counts to represent in the legend
+
+// Add a legend title
+svg.append("text")
+    .attr("x", width - 100)
+    .attr("y", 20)
+    .text("Vehicle Count")
+    .style("font-size", "16px")
+    .attr("alignment-baseline","middle");
+
+// Create legend bubbles and labels
+legendSizes.forEach((size, index) => {
+    const radius = z(size); // Convert count to radius size
+    const yPos = 40 + index * 40; // Position each legend item vertically
+
+    // Add legend bubbles
+    svg.append("circle")
+        .attr("cx", width - 80)
+        .attr("cy", yPos)
+        .attr("r", radius)
+        .style("fill", "#69b3a2")
+        .style("opacity", "0.7")
+        .attr("stroke", "black");
+
+    // Add legend labels
+    svg.append("text")
+        .attr("x", width - 60)
+        .attr("y", yPos)
+        .text(`= ${size} Vehicles`)
+        .style("font-size", "14px")
+        .attr("alignment-baseline","middle");
+});
+
+}).catch(error => {
+    console.log(error);
+});
