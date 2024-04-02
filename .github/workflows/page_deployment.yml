@@ -3,9 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # Replace with your default branch name if it's not 'main'
     paths:
-      - 'docs/**'
+      - 'docs/**'  # This ensures the workflow only runs when there are changes in the 'docs' directory
   workflow_dispatch:
 
 jobs:
@@ -15,10 +15,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
         with:
-          lfs: true
+          lfs: true  # Fetch Git LFS files
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  # Use Node.js 20
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./docs  # This is the folder where your index.html is
