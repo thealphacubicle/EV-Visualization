@@ -3,26 +3,23 @@ name: GitHub Pages Deployment
 on:
   push:
     branches:
-      - main
+      - main  # This triggers the workflow on pushes to the main branch
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04  # Specifies the runner environment to use
     permissions:
-      contents: write
+      contents: write  # Grants permission to write to the repository
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: ${{ github.workflow }}-${{ github.ref }}  # Ensures that only a single job will run at a time
     steps:
       - uses: actions/checkout@v3
         with:
-            lfs: true
+          lfs: true  # Ensures LFS files are checked out
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'  # Ensures that this job only runs on the main branch
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # The token used for authentication with GitHub to push to the gh-pages branch
+          publish_dir: ./docs  # The directory that contains the site to publish. Changed from ./public to ./docs
