@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyzing the Surge of EVs in Washington State</title>
+    <link href="../website/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="title-box">
+    <h1>Analyzing the Surge of EVs in Washington State</h1>
+    <h3>By: Srihari Raman, Jai Gollapudi, Anoushka Bhatia, Colbe Chang</h3>
+    </div>
+
+    <h2><u>Overall Introduction</u></h2>
+
+    <p>Electric vehicles (EVs) are at the heart of a global shift 
+        towards more sustainable and environmentally friendly 
+        transportation options. Fueled by growing environmental 
+        concerns, rapid technological advancements, and evolving 
+        consumer preferences, the move towards EVs represents a 
+        critical step in reducing carbon emissions and combating 
+        climate change.</p>
+    
+    <p>Washington State has emerged as a leader in the adoption of electric vehicles, 
+        driven by a combination of supportive policies, environmental awareness, 
+        and economic incentives. With initiatives like generous tax rebates, 
+        investments in charging infrastructure, and public education campaigns, 
+        the state has cultivated a fertile ground for EVs to thrive.</p>
+    
+    <p>This research project will use data-driven analytics to unravel how these elements 
+      intertwine to propel the adoption rates in Washington State. By leveraging our EV dataset 
+      and visualization tools, we aim to showcase the patterns behind the numbers. Also, by analyzing the factors influencing EV adoption, 
+      from policy incentives to public perception, this project seeks to provide comprehensive insights 
+      into the accelerating transition to electric mobility and its broader implications for society and the environment.</p>
+
+    <p>Through this in-depth analysis, our goal is to not only reflect on the current state 
+        of EV adoption but also to forecast future trends and potential areas of growth. 
+        We hope to provide stakeholders, including policymakers, industry leaders, and 
+        consumers, with valuable insights that can inform their decisions and strategies 
+        as we collectively steer towards a greener future.</p>
+
+    <p>To learn more about EV adoption in Washington State,
+         you can visit the <a href="https://www.seattletimes.com/seattle-news/environment/ev-sales-have-soared-in-wa-our-map-shows-where-theyre-registered/#:~:text=Washington%20has%20been%20among%20a,energy%20research%20division%20of%20Bloomberg." style="color: #5599ff; text-decoration: underline;">The Seattle Times</a> website.  
+         Additionally, you can explore official data reports and analyses at: 
+         <li><a href="https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2/about_data" style="color: #5599ff; text-decoration: underline;">The Official Washington State Open Data Portal</a></li>
+         <li><a href="https://medium.com/@luiz.fellix/exploring-the-growth-of-electric-vehicles-in-washington-an-analysis-of-the-electric-vehicle-76e1bcb556f4" style="color: #5599ff; text-decoration: underline;">Medium</a></li>
+         <li><a href="https://www.iea.org/reports/global-ev-outlook-2023/trends-in-electric-light-duty-vehicles" style="color: #5599ff; text-decoration: underline;">International Energy Agency</a></li></p>
+    <h2><u>Introduction to the data</u></h2>
+
+    <p> The Electric Vehicle Population Dataset from the Washington 
+        State Department of Licensing provides a comprehensive overview 
+        of currently registered Battery Electric Vehicles (BEVs) and 
+        Plug-in Hybrid Electric Vehicles (PHEVs). This dataset's breadth 
+        allows for an in-depth analysis of EV adoption patterns, 
+        technological trends, and market dynamics. The detail 
+        information about the features are listed below:</p>  
+    
+    <p>
+    <b>Dataset Name:</b> Electric Vehicle Population Dataset<br>
+    <b>Data Source:</b> <a href="https://www.kaggle.com/datasets/yashusinghal/electric-vehicle-population-dataset" style="color: #5599ff; text-decoration: underline;">Kaggle</a></br>
+    <b>Rows:</b> 166801<br>
+    <b>Features:</b> 17</br>
+    <b>Data Date Range:</b> 1997 to 2024</p>
+
+
+        <div class="center">
+        
+        <table class="tg">
+            <thead>
+              <tr>
+                <th class=""tg-0lax"><b>No.</b></th>
+                <th class="tg-0lax"><b>Features</b></th>
+                <th class="tg-0lax"><b>Details</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-0lax">1</td>
+                <td class="tg-0lax">VIN</td>
+                <td class="tg-0lax">The identifying code for a specific automobile.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">2</td>
+                <td class="tg-0lax">Country</td>
+                <td class="tg-0lax">Country where it is manufactured.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">3</td>
+                <td class="tg-0lax">City</td>
+                <td class="tg-0lax">Location of company that manufactures electric cars.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">4</td>
+                <td class="tg-0lax">State</td>
+                <td class="tg-0lax">State where it is manufactured.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">5</td>
+                <td class="tg-0lax">Postal Code</td>
+                <td class="tg-0lax">The post office numbering code system used by the postal service.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">6</td>
+                <td class="tg-0lax">Model Year</td>
+                <td class="tg-0lax">The year in which the car was manufactured</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">7</td>
+                <td class="tg-0lax">Make</td>
+                <td class="tg-0lax">Name of the company</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">8</td>
+                <td class="tg-0lax">Model</td>
+                <td class="tg-0lax">A unique 17-digit code specific to every vehicle.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">9</td>
+                <td class="tg-0lax">Electric Vehicle Type</td>
+                <td class="tg-0lax">Hybrid Electric Vehicles (HEV), Plug-in Hybrid Electric Vehicles (PHEV), or Battery Electric Vehicles (BEV)</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">10</td>
+                <td class="tg-0lax">Clean Alternative Fuel Vehicle</td>
+                <td class="tg-0lax">Vegetable oils, such as palm, soybean, sunflower, peanut, or olive.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">11</td>
+                <td class="tg-0lax">Electric Range</td>
+                <td class="tg-0lax">Overall range in miles.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">12</td>
+                <td class="tg-0lax">Base MSRP</td>
+                <td class="tg-0lax">The Manufacturer's Suggested Retail Price (MSRP) is the base price plus additional features.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">13</td>
+                <td class="tg-0lax">Legislative District</td>
+                <td class="tg-0lax">The Legislative District Number.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">14</td>
+                <td class="tg-0lax">DOL Vehicle ID</td>
+                <td class="tg-0lax">A unique identification number for each vehicle present in the Transactions dataset. </td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">15</td>
+                <td class="tg-0lax">Vehicle Location</td>
+                <td class="tg-0lax">Point where short half-shafts connecting the output of the motors to the wheels.</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">16</td>
+                <td class="tg-0lax">Electric Utility</td>
+                <td class="tg-0lax">A corporation, person, agency, authority with distribution facilities for electric energy .</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">17</td>
+                <td class="tg-0lax">2020 Census Tract</td>
+                <td class="tg-0lax">Geographic divisions of a county for the decennial census</td>
+              </tr>
+            </tbody>
+            </table>
+        </div>
+        
+        <h2><u>Geographic Distribution of EVs in Washington State</u></h2>
+
+          <div class = 'center'>
+              <iframe src="../src/map_chart.html" width="100%" height="500px" frameborder="0"></iframe>
+          </div>
+          
+          <p>The interactive map showcases the distribution of electric vehicles across Washington State. 
+            Each circle represents a different city or area, with the size and color intensity reflecting 
+            the number of registered electric vehicles. For instance, Seattle emerges as a leading hub with 
+            the highest concentration, indicative of the city's commitment to sustainable transportation. Additionally, 
+            when clicked, the circles zoom in and show concentrations of EVs in smaller areas on the map.
+            This visualization not only illustrates the urban centers driving EV adoption but also highlights 
+            areas with potential for growth. By understanding the geographic spread of electric vehicles, 
+            stakeholders can better identify and address the needs for charging infrastructure, policy development, 
+            and consumer education to support the continued expansion of eco-friendly transportation solutions.</p>
+
+        <h2><u>EV Adoption Over Time</u></h2>
+        
+        <div class = 'container'>
+            <div class = 'image'>
+                <iframe src="../src/line_chart.html" width="100%" height="400px" frameborder="0"></iframe>
+            </div>
+            <div class = 'text'>
+                <p> Our analysis reveals a remarkable trajectory of Battery Electric Vehicles (BEVs) 
+                  and Plug-in Hybrid Electric Vehicles (PHEVs)) registrations in Washington State, 
+                  highlighting the state's commitment to sustainable transportation. 
+                  <br>
+                  <li>In 2013, 2852 BEVs were registered compared to the 44462 BEVs registered in 2023.</li>
+                  <li>In 2013, 1603 PHEVs were registered compared to the 6889 registered in 2023.</li>
+                  </br>
+                  This growth aligns with global environmental sustainability goals and reflects 
+                  the region's progressive stance on climate change and technological innovation.
+                  Policies such as tax incentives for EV buyers, improvements in EV infrastructure, 
+                  and an increasing awareness of the environmental impacts of fossil fuels have all 
+                  contributed to this surge.  </p>
+            </div>            
+        </div>
+        
+        <h2><u>Market Share of EV Types</u></h2>
+
+        <div class = 'container'>
+            <div class = 'text'>
+                <p> Tesla's dominance is a testament to their strong brand recognition and early 
+                  mover advantage in the electric vehicle market with 74,834 vehicles in the BEV market. 
+                  Nissan is second with 13,848 BEVs indicating a solid market presence, 
+                  potentially due to their affordable model, the Leaf, which has been popular among consumers 
+                  seeking an entry-level EV.
+                </p>
+                <p>In contrast, the PHEV market presents a 
+                  more varied landscape. BMW leads this segment with 4,904 vehicles, followed 
+                  closely by CHEVROLET and TOYOTA, with 4,825 and 5,527 vehicles, respectively. 
+                  This suggests that consumers looking for PHEVs may value the combination of 
+                  traditional engine support with electric propulsion, which can offer extended 
+                  range and flexibility.
+                </p>
+                <p> The data suggests that while some manufacturers have focused on either BEV or PHEV, 
+                  others have diversified their offerings across both categories. This strategic positioning 
+                  reflects the evolving nature of the EV market, where consumer choice is driven by a 
+                  mix of range anxiety, environmental consciousness, and economic considerations.
+                </p>
+            </div>
+            <div class='image'>
+              <iframe src="../src/stacked_bar_chart.html" width="100%" height="500px" frameborder="0"></iframe>
+            </div>             
+        </div>
+        
+        <h2><u>Top Electric Utility Firms in WA</u></h2>
+        
+        <div class = 'container'>
+            <div class = 'image'>
+                <iframe src="../src/bar_chart.png" width="100%" height="500px" frameborder="0"></iframe>
+            </div>
+            <div class = 'text'>
+                <p> The electric utility firms in Washington State reveals a concentrated 
+                  market with significant dominance by top providers. 
+                  <br>
+                  <li>Puget Sound Energy, in a combined tally 
+                    with the City of Tacoma, leads by a margin with over 61,000 counts, proving its 
+                    pivotal role in the state's energy supply, particularly to electric vehicle (EV) consumers. </li>
+                      <li> The City of Seattle, in conjunction with the City of Tacoma, accounts for nearly 30,000 counts, 
+                        marking the central role municipal services play in supporting EV infrastructure.</li>
+                      <li>Notably, the Bonneville Power Administration appears multiple times in conjunction with various other entities, 
+                        reflecting its integral part in regional energy distribution, particularly to outlying areas as
+                        reflected in the counts ranging from 1,177 to 9,615.</li>
+                      <li> The City of Seattle, in conjunction with the City of Tacoma, accounts for nearly 30,000 counts, 
+                      marking the central role municipal services play in supporting EV infrastructure.</li>
+                  </br>
+                  The prominence of these entities not only signifies their market share but also highlights the 
+          importance of their collaboration with municipal and regional partners in supporting the state’s EV market. </p>
+            </div>            
+        </div>
+    
+
+        <h2><u>Price Versus Performance in 2019</u></h2>
+        
+
+        <div class = 'center'>
+          <div class="container">
+            <div id="bubble-chart"></div>
+          </div>
+      </div>
+        
+        
+        
+        <p> The bubble chart presents a compelling visual comparison of electric vehicles (EVs) by 
+          their base Manufacturer's Suggested Retail Price (MSRP) against their electric range. Each 
+          bubble represents a cluster of EV models, where the bubble size denotes the number of vehicles 
+          within that price and range category. Larger bubbles signify a greater number of vehicles sharing 
+          similar price and performance characteristics. Notably, the visualization encapsulates the diversity 
+          within the 2019 EV market, highlighting how certain price ranges are more densely populated, suggesting 
+          a market preference or greater availability of options in that segment. This insightful analysis aids 
+          consumers and industry experts alike in understanding market trends, affordability, and performance 
+          benchmarks of electric vehicles during that year.
+
+        <p><b>Note</b>: Due to limitations in our data, we picked 2019 as the year for our "Base MSRP vs Electric Range" analysis. 
+          In future iterations, we hope to use the latest data available.</p>
+
+        </p>
+        <h2><u>Summary and additional work</u></h2>
+        <p>
+          As we conclude this analysis of electric vehicle (EV) adoption in Washington State, our data-driven 
+          insights reveal a multifaceted narrative of progress and potential. In a span of a decade, the number 
+          of registered BEVs has surged dramatically from 2,852 in 2013 to a staggering 44,462 in 2023, mirroring 
+          a global commitment to sustainable transportation and reflecting the state's proactive environmental 
+          policies and consumer shifts towards cleaner energy options. 
+        </p>
+        <p>
+          The EV market has also seen diversity in its offerings and consumer choices. While Tesla has surged 
+          ahead with its 74,834 BEVs, indicative of the brand's powerful market influence and consumer appeal, 
+          the PHEV market has displayed a competitive array, with BMW, Chevrolet, and Toyota collectively accounting 
+          for a significant share, reflecting consumer demand for vehicles that blend conventional engine support 
+          with the benefits of electrification.
+        </p>
+
+        <p>As expected, utility providers have been the backbone of this EV expansion, with Puget Sound Energy and 
+          municipal services like the City of Tacoma leading with over 61,000 counts of energy provision to EV consumers. 
+          This underscores not only their market share but also their pivotal role in underpinning the EV infrastructure 
+          that supports this energy burgeoning sector.
+        </p>
+
+        <p>This analysis, however, is just the beginning. Our ongoing work will venture into predictive terrain, aiming to 
+          project future EV adoption trends using machine learning and advanced modeling. We intend to investigate the 
+          effects of the EV surge on the state's economy, scrutinize the efficacy of tax incentives, and evaluate the 
+          environmental impacts of reduced fossil fuel dependency. Our research will also consider the social aspects, 
+          such as the readiness of different socio-economic groups to transition to EVs and the corresponding effects 
+          on market dynamics.
+        </p>
+
+        <p style="text-align: center;">For inquiries, further data contributions, or collaborative opportunities, please email one of the authors of this website:
+          <ul style="list-style-type:none; padding: 0; text-align: center;">
+              <li>gollapudi.j@northeastern.edu</a></li>
+              <li>bhatia.ano@northeastern.edu</a></li>
+              <li>raman.sr@northeastern.edu</a></li>
+              <li>change.co@northeastern.edu</a></li>
+          </ul>
+        </p>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="../website/bubble_chart.js"></script>
+
+</body>
+</html>
