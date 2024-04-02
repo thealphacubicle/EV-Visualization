@@ -47,5 +47,6 @@ For inquiries, data contributions, or collaboration opportunities, please contac
 - chang.co@northeastern.edu
 
 ---
+**Note:** This project is part of the Data Science DS4200 course at Northeastern University's Khoury College of Computer Sciences.*
 
 *This project utilizes data from The Seattle Times, the Official Washington State Open Data Portal, Medium, and the International Energy Agency for comprehensive analysis and insights into EV adoption in Washington State.*
