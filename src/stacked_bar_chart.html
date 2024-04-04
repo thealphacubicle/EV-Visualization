@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "data-3028dbaf43c7ea97fa7a16909c715f48"}, {"name": "data_0", "values": [{"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "BMW", "sum_Count": 2288, "sum_Count_end": 116811.0, "sum_Count_start": 114523.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "BMW", "sum_Count": 4893, "sum_Count_end": 10389.0, "sum_Count_start": 5496.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "CHEVROLET", "sum_Count": 8236, "sum_Count_end": 96732.0, "sum_Count_start": 88496.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "CHEVROLET", "sum_Count": 4810, "sum_Count_end": 15199.0, "sum_Count_start": 10389.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "FORD", "sum_Count": 4915, "sum_Count_end": 101647.0, "sum_Count_start": 96732.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "FORD", "sum_Count": 3642, "sum_Count_end": 22931.0, "sum_Count_start": 19289.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "HYUNDAI", "sum_Count": 3475, "sum_Count_end": 114523.0, "sum_Count_start": 111048.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "HYUNDAI", "sum_Count": 574, "sum_Count_end": 25794.0, "sum_Count_start": 25220.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "JEEP", "sum_Count": 4090, "sum_Count_end": 19289.0, "sum_Count_start": 15199.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "KIA", "sum_Count": 4695, "sum_Count_end": 111048.0, "sum_Count_start": 106353.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "KIA", "sum_Count": 2289, "sum_Count_end": 25220.0, "sum_Count_start": 22931.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "NISSAN", "sum_Count": 13835, "sum_Count_end": 88496.0, "sum_Count_start": 74661.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "TESLA", "sum_Count": 74661, "sum_Count_end": 74661.0, "sum_Count_start": 0.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "TOYOTA", "sum_Count": 284, "sum_Count_end": 117095.0, "sum_Count_start": 116811.0}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)", "Make": "TOYOTA", "sum_Count": 5496, "sum_Count_end": 5496.0, "sum_Count_start": 0.0}, {"Electric Vehicle Type": "Battery Electric Vehicle (BEV)", "Make": "VOLKSWAGEN", "sum_Count": 4706, "sum_Count_end": 106353.0, "sum_Count_start": 101647.0}]}, {"name": "data_0_x_domain_Electric Vehicle Type", "values": [{"Electric Vehicle Type": "Battery Electric Vehicle (BEV)"}, {"Electric Vehicle Type": "Plug-in Hybrid Electric Vehicle (PHEV)"}]}, {"name": "data_0_color_domain_Make", "values": [{"Make": "BMW"}, {"Make": "CHEVROLET"}, {"Make": "FORD"}, {"Make": "HYUNDAI"}, {"Make": "JEEP"}, {"Make": "KIA"}, {"Make": "NISSAN"}, {"Make": "TESLA"}, {"Make": "TOYOTA"}, {"Make": "VOLKSWAGEN"}]}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "data_0"}, "encode": {"update": {"x": {"field": "Electric Vehicle Type", "scale": "x"}, "width": {"signal": "max(0.25, bandwidth('x'))"}, "tooltip": {"signal": "{\"Make\": isValid(datum[\"Make\"]) ? datum[\"Make\"] : \"\"+datum[\"Make\"], \"Vehicle Type\": isValid(datum[\"Electric Vehicle Type\"]) ? datum[\"Electric Vehicle Type\"] : \"\"+datum[\"Electric Vehicle Type\"], \"Number of Vehicles\": format(datum[\"sum_Count\"], \"\")}"}, "fill": {"field": "Make", "scale": "color"}, "y2": {"field": "sum_Count_start", "scale": "y"}, "y": {"field": "sum_Count_end", "scale": "y"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "band", "domain": {"data": "data_0_x_domain_Electric Vehicle Type", "field": "Electric Vehicle Type", "sort": true}, "range": [0, {"signal": "width"}], "paddingInner": 0.1, "paddingOuter": 0.05}, {"name": "y", "type": "linear", "domain": {"data": "data_0", "fields": ["sum_Count_start", "sum_Count_end"]}, "range": [{"signal": "height"}, 0], "nice": true, "zero": true}, {"name": "color", "type": "ordinal", "domain": {"data": "data_0_color_domain_Make", "field": "Make", "sort": true}, "range": {"scheme": "tableau20"}}], "axes": [{"scale": "y", "domain": false, "maxExtent": 0, "gridScale": "x", "orient": "left", "tickCount": {"signal": "ceil(height/40)"}, "labels": false, "minExtent": 0, "aria": false, "ticks": false, "zindex": 0, "grid": true}, {"scale": "x", "zindex": 0, "labelBaseline": "middle", "labelAngle": 270, "orient": "bottom", "grid": false, "title": "Electric Vehicle Type", "labelAlign": "right"}, {"scale": "y", "zindex": 0, "orient": "left", "labelOverlap": true, "grid": false, "title": "Number of Vehicles", "tickCount": {"signal": "ceil(height/40)"}}], "title": {"text": "Market Share by Make within Electric Vehicle Types", "frame": "group"}, "height": 400, "style": "cell", "padding": 5, "width": 600, "legends": [{"title": "Make", "fill": "color", "symbolType": "square"}], "background": "white"};
+      var embedOpt = {"mode": "vega"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
