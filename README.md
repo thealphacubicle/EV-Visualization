@@ -37,6 +37,19 @@ The project includes various data visualizations, such as interactive maps and c
 
 Our analysis highlights a multifaceted narrative of EV adoption, emphasizing the significant growth in registrations, diversity in the EV market, and the crucial role of utility providers. Future work will focus on predictive analysis, economic impacts, effectiveness of incentives, and environmental benefits of the EV surge.
 
+# Test The Project
+To run the project:
+
+1. Clone the repository:
+```bash
+git clone
+```
+
+2. Run the ```index.html``` file in the ```/docs``` folder:
+```bash
+open docs/index.html
+```
+
 ## Contact
 
 For inquiries, data contributions, or collaboration opportunities, please contact:

@@ -19,7 +19,6 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
         aggregatedData[key].count += 1;
     });
 
-    // Preparing the aggregated data for D3 visualization
     let data2019 = Object.values(aggregatedData);
 
     // Setting dimensions and margins for the graph
@@ -71,14 +70,13 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
     const maxCount = d3.max(data2019, d => d.count);
 
     // Adjusting the colorScale domain based on the dataset's count range
-    const colorScale = d3.scaleOrdinal()
-        .domain([1, maxCount * 0.25, maxCount * 0.5, maxCount * 0.75, maxCount])
-        .range(d3.schemeCategory10); // Selected from a d3 provided color scheme
+    const colorScale = d3.scaleSequential(d3.interpolateBlues)
+        .domain([1, maxCount]);
 
     // Defining the bubble size scale, ensuring that it reflects the actual data counts
     const z = d3.scaleSqrt()
         .domain([1, maxCount])
-        .range([4, 40]); // Adjusting the output range to ensure bubbles are visible
+        .range([4, 40]);
 
     // Creating the bubbles
     const bubbles = svg.append('g')
@@ -98,13 +96,13 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
         .attr("x", d => x(d.electricRange))
         .attr("y", d => y(d.msrp))
         .style("text-anchor", "middle")
-        .style("font-size", d => `${Math.max(z(d.count)/5, 8)}px`) // Ensuring text is at least 8px in size
+        .style("font-size", d => `${Math.max(z(d.count)/4, 10)}px`)
         .text(d => d.count);
 
     // Adding chart title
     svg.append("text")
         .attr("class", "chart title")
-        .attr("x", width / 2)
+        .attr("x", width + 5 / 2)
         .attr("y", 0 - (margin.top / 2))
         .attr("text-anchor", "middle")
         .style("font-size", "24px")
@@ -115,7 +113,7 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
     const uniqueCounts = [...new Set(data2019.map(d => d.count))].sort(d3.ascending);
 
     // Defining a constant size for all legend bubbles
-    const legendBubbleSize = 10; // Adjust the size as needed
+    const legendBubbleSize = 10;
 
     // Setting the legend title
     svg.append("text")
@@ -131,7 +129,7 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
         .data(uniqueCounts)
         .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", (d, i) => `translate(${width + 50},${20 + i * 30})`); // Preventing overlap
+        .attr("transform", (d, i) => `translate(${width + 50},${20 + i * 30})`);
 
     legend.append("circle")
         .attr("cx", 0)
@@ -142,11 +140,11 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
         .attr("stroke", "black");
 
     legend.append("text")
-        .attr("x", 30) // 
+        .attr("x", 30)
         .attr("y", 10)
         .attr("dy", ".35em")
         .style("text-anchor", "start")
-        .text(d => `> ${d} Vehicles`);
+        .text(d => `${d} Vehicles`);
 }).catch(function(error) {
     console.error(error);
 });
