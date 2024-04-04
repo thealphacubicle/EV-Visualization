@@ -19,6 +19,7 @@ d3.csv("../data/Electric_Vehicle_Population_Data.csv", function(d) {
         aggregatedData[key].count += 1;
     });
 
+    // Converting the aggregated data object into an array
     let data2019 = Object.values(aggregatedData);
 
     // Setting dimensions and margins for the graph
