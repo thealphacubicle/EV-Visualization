@@ -52,6 +52,7 @@ open website/index.html
 ```
 
 - Open the folder in an IDE of your choice (VSCode preferable) and run ```index.html``` using live server.
+
 **NOTE**: Due to limitations in container dimensions, some labels, axes, and legends might not initially appear when the website renders. To view the full plot, please scroll up/down/left/right on the plot.
 
 ## Contact
