@@ -42,13 +42,14 @@ To run the project:
 
 1. Clone the repository:
 ```bash
-git clone
+git clone [URL]
 ```
 
-2. Run the ```index.html``` file in the ```/docs``` folder:
+2. Run the ```index.html``` file in the ```/website``` folder:
 ```bash
-open docs/index.html
+open website/index.html
 ```
+**NOTE**: Due to limitations in container dimensions, some labels, axes, and legends might not initially appear when the website renders. To view the full plot, please scroll up/down/left/right on the plot.
 
 ## Contact
 
